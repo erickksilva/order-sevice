@@ -44,14 +44,6 @@ public class OrderService {
         return orderRepository.deleteById(id);
     }
 
-    //Esse metodo nao deve ser utilizado, pq ele exclui um livro do applicativo catalog-service
-    public Mono<Void> deleteBuildBook(String isbn) {
-        return bookClient.deleteBookByIsbn(isbn)
-                .then(orderRepository.deleteByBookIsbn(isbn)
-                        .onErrorResume(EmptyResultDataAccessException.class,
-                                e -> Mono.empty()));
-
-    }
 
     /**
      * O metodo just cria um Mono do tipo especificado com os valores passados em seus argumentos.

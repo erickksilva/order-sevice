@@ -38,20 +38,6 @@ public class BookClient {
          */
     }
 
-    public Mono<Book> deleteBookByIsbn(String isbn) {
-        return webClient
-                .delete()
-                .uri(BOOKS_ROUTE_API + isbn)
-                .retrieve()
-                .bodyToMono(Book.class)
-                .timeout(Duration.ofSeconds(3), Mono.empty()) //Define um tempo limite de 3 segundos para a solicitação GET
-                .onErrorResume
-                        (WebClientResponseException.NotFound.class, exception -> Mono.empty()) //Captura a resposta do tipo 404 e retorna um Mono.empty
-                .retryWhen(Retry.backoff(3, Duration.ofMillis(100))) //A espera exponencial é usada como estratégia de nova tentativa. São permitidas três tentativas com tempo inicial de 100 ms
-                .onErrorResume(Exception.class, exception -> Mono.empty()); //Se ocorrer algum erro após as 3 novas tentativas, capture a exceção e retorne um objeto vazio.
-
-
-    }
 
     /**
      * 1 - Um bean WebClient conforme configurado anteriormente.

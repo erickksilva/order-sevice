@@ -1,5 +1,6 @@
 package com.polarbookshop.orderservice.config;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -8,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class ClientConfig {
 
     @Bean
-    public WebClient webClient(ClientProperties clientProperties, WebClient.Builder webBuilder) {
+    public WebClient webClient(@NotNull ClientProperties clientProperties, WebClient.@NotNull Builder webBuilder) {
         return webBuilder
                 .baseUrl(clientProperties.catalogServiceUri().toString())
                 .build();
